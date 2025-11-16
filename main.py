@@ -13,8 +13,8 @@ import chess
 hey '''
 
 
-def main():
-  
-  if __name__ == '__main__':
-    print("running main")
-  
+# import module
+import webbrowser
+
+# open html file
+webbrowser.open('GFG.html') 
