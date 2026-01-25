@@ -1,7 +1,9 @@
 import cv2
+import pprint
 import time
 import os
 import numpy as np
+import pandas as pd
 import imageio
 from random import random
 from pynput import keyboard #testing purposes
@@ -13,88 +15,103 @@ from pynput import keyboard #testing purposes
 - run a couple functions on each gif ahead of time, but run a check first if the gif is pre filtered (hopefully gifs come sized correctly)
 - 
 '''
-# Load in gif "buckets" into arrays or lists to be accessed based on their assigned purpose, potentially move into a map with (K, V) key, value pairs for each piece, and centipawn assignment
-gif = "gifs/SwimmingHorse.gif"
-gif2 = "gifs/Soldier_Bird.gif"
-gif3 = "gifs/Dancers.gif"
-gif4 = "gifs/explosion-explode.gif"
+# Load in gif "buckets" into arrays or lists to be accessed based on their assigned purpose, 
+# potentially move into a map with (K, V) key, value pairs for each piece, and centipawn assignment
 
-gif_array = [gif, gif2, gif3, gif4]
+# Load in gif "buckets" into arrays or lists to be accessed based on their assigned purpose, 
+# each bucket corresponds to a centipawn loss range 
 
-iterate_number = 1
-#def main():
-while(True):
 
-    for gif_oing in gif_array:
-        reader = imageio.get_reader(gif_oing, mode='i')
-        imageio.get_reader
+## Global Variables ##
 
-        # speed in milliseconds
-        gif_speed = 10
+# relative path to folders 
+path = 'gifs/'
+# list of paths to gif bucket folders
+path_list = []
+# gif paths sorted into each category, or "bucket" 1-5 
+buckets = {1: [], 2: [], 3: [], 4: [], 5: []}
+# placeholder
+files = []
+# speed in milliseconds
+gif_speed = 5 # vroom
 
-        # opencv create a window for viewing in live
-        cv2.namedWindow("gif", cv2.WINDOW_NORMAL)
+# function to gain all gif paths and organize into their respective buckets
+def populate_buckets():
+    try:
+        print(os.listdir(path))
+        bucket_list = os.listdir(path)
+        # fetch path list for each bucket
+        path_list = [x[0] for x in os.walk(path)]
+        print(path_list)
 
-        # keypress logic, save for later
-        # def on_press(key):
-        #     if key == keyboard.Key.esc:
-        #         return False  # stop listener
-        #     try:
-        #         k = key.char  # single-char keys
-        #     except:
-        #         k = key.name  # other keys
-        #     if k in ['space', 'up', 'down']:  # keys of interest
-        #         # self.keys.append(k)  # store it in global-like variable
-        #         print('Key pressed: ' + k)
-        #         return False  # stop listener; remove this if want more keys
+        # iterate through each bucket path and sort gifs into their respective lists
+        for p in path_list:
+            for f in os.listdir(p):
+                for i in bucket_list:
+                    if f.endswith('.gif') and i in p:
+                        buckets[int(i)].append(os.path.join(p, f))
+        pprint.pp(buckets)
 
-            # ghetto main
-            
-            # listener = keyboard.Listener(on_press=on_press)
-            # listener.start()  # start to listen on a separate thread
-            # listener.join()  # remove if main thread is polling self.keys
+    except OSError as e:
+        print("Error:", e)
 
-        for frame in reader:
 
-            # PREPROCESSING GIF FRAME
+def main():
 
-            # resize frame to be consisent with eachother
-            frame = cv2.resize(frame, (1920, 1080))
-            print(frame.shape)
+    # fetch all gif paths and organize into buckets
+    populate_buckets()
+    while(True):
+        for i in buckets:
+            for gif in buckets[i]:
+                reader = imageio.get_reader(gif, mode='i')
+                imageio.get_reader
 
-            # pre process into a grayscale format
-            #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            
-            # frame is RGB; OpenCV expects BGR
-            frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-            
-            
-            # MANIPULATION OF GIF FRAME
-             # Example manipulation
+                # opencv create a window for viewing in live
+                cv2.namedWindow("gif", cv2.WINDOW_NORMAL)
 
-            #frame = cv2.GaussianBlur(frame, (15, 15), 0)
-            #frame = cv2.medianBlur(frame, 11)
-            
-            # multiplication changes the value scale to be more intense
-            frame = abs(frame + iterate_number)
-            
-            upper_bound = 50
-            
-            # TODO: leaving off in a spot where i can fluctuate the iterate number to "pulse" the frame's value
-            
-            if (iterate_number >= 0 & iterate_number <= upper_bound):
-                iterate_number += 1
-            elif (iterate_number >= upper_bound):
-                iterate_number -= 1
+                for frame in reader:
 
-            
+                    # PREPROCESSING GIF FRAME
 
-           
+                    # resize frame to be consisent with eachother
+                    frame = cv2.resize(frame, (1920, 1080))
+                    print(frame.shape)
 
-            cv2.imshow("gif", frame)
+                    # pre process into a grayscale format
+                    #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                    
+                    # frame is RGB; OpenCV expects BGR
+                    frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+                    
+                    
+                    # MANIPULATION OF GIF FRAME
+                    # Example manipulation
 
-            # Control playback speed (milliseconds)
-            if cv2.waitKey(gif_speed) & 0xFF == ord("q"):
-                break
+                    frame = cv2.GaussianBlur(frame, (15, 15), 0)
+                    #frame = cv2.medianBlur(frame, 11)
+                    
+                    # multiplication changes the value scale to be more intense
+                    #frame = abs(frame + iterate_number)
+                    
+                    #upper_bound = 50
+                    
+                    # TODO: leaving off in a spot where i can fluctuate the iterate number to "pulse" the frame's value
+                    
+                    # if (iterate_number >= 0 & iterate_number <= upper_bound):
+                    #     iterate_number += 1
+                    # elif (iterate_number >= upper_bound):
+                    #     iterate_number -= 1
 
-cv2.destroyAllWindows()
+                    
+
+                
+
+                    cv2.imshow("gif", frame)
+
+                    # Control playback speed (milliseconds)
+                    if cv2.waitKey(gif_speed) & 0xFF == ord("q"):
+                        break
+
+        cv2.destroyAllWindows()
+
+main()
