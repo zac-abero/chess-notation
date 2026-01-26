@@ -25,15 +25,17 @@ from pynput import keyboard #testing purposes
 ## Global Variables ##
 
 # relative path to folders 
-path = 'gifs/'
+path = 'gifs\organized'
 # list of paths to gif bucket folders
 path_list = []
 # gif paths sorted into each category, or "bucket" 1-5 
-buckets = {1: [], 2: [], 3: [], 4: [], 5: []}
+buckets = {1: [], 2: [], 3: [], 4: [], 5: [], 9: []}
 # placeholder
 files = []
 # speed in milliseconds
-gif_speed = 5 # vroom
+gif_speed = 1
+
+iterate_number = 1
 
 # function to gain all gif paths and organize into their respective buckets
 def populate_buckets():
@@ -55,6 +57,17 @@ def populate_buckets():
     except OSError as e:
         print("Error:", e)
 
+# this might just be change gif
+def update_gif():
+    return
+
+# swap gif from what is running, take in centipawns as a factor
+def change_gif(cp):
+    return
+
+# apply some math to the frame in some way lol, maybe make a separate class?
+def modify_frame():
+    return
 
 def main():
 
@@ -91,7 +104,7 @@ def main():
                     #frame = cv2.medianBlur(frame, 11)
                     
                     # multiplication changes the value scale to be more intense
-                    #frame = abs(frame + iterate_number)
+                    frame = abs(frame + iterate_number)
                     
                     #upper_bound = 50
                     
@@ -102,7 +115,7 @@ def main():
                     # elif (iterate_number >= upper_bound):
                     #     iterate_number -= 1
 
-                    
+            
 
                 
 

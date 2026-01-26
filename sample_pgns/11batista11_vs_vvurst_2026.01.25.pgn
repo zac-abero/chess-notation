@@ -1,0 +1,20 @@
+[Event "Live Chess"]
+[Site "Chess.com"]
+[Date "2026.01.25"]
+[Round "?"]
+[White "11batista11"]
+[Black "vvurst"]
+[Result "1-0"]
+[TimeControl "300"]
+[WhiteElo "177"]
+[BlackElo "158"]
+[Termination "11batista11 won by checkmate"]
+[ECO "A00"]
+[EndTime "17:19:57 GMT+0000"]
+[Link "https://www.chess.com/game/live/148476924476?move=0"]
+
+1. d3 e5 2. Be3 Qf6 3. c4 Nc6 4. Nc3 Bb4 5. g3 d6 6. a3 Bf5 7. axb4 e4 8. Nd5
+Qxb2 9. Nxc7+ Kd7 10. Nxa8 exd3 11. exd3 Qc3+ 12. Ke2 Bxd3+ 13. Qxd3 Qxa1 14. c5
+Ne5 15. Qb5+ Ke6 16. Qxb7 Ne7 17. Nf3 Qa2+ 18. Ke1 Nxf3+ 19. Kd1 Qb2 20. Qxf3
+dxc5 21. bxc5 Rd8+ 22. Ke1 Qc2 23. Bd2 Rd3 24. Bxd3 f5 25. Qe2+ Kf6 26. Bxc2 Nd5
+27. g4 a5 28. gxf5 a4 29. Qe6# 1-0

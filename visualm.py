@@ -1,0 +1,1 @@
+# Create a class that modifies an image (frame for gif) in some transformation, takes an image in and returns a modified image as an object
