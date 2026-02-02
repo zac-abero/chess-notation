@@ -2,7 +2,7 @@ import chess.pgn
 import chess.svg
 import math
 from stockfish import Stockfish
-#import opencv_demo
+import gif_handler
 from time import sleep
 from pynput import keyboard #testing purposes
 

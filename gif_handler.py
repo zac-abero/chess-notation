@@ -69,6 +69,14 @@ def change_gif(cp):
 def modify_frame():
     return
 
+def blend_frame(frame, frame1):
+    frame = cv2.addWeighted(frame, 0.7, frame1, 0.3, 0)
+    return frame
+
+def flip_frame_horizontal(frame):
+    
+    return frame
+
 def main():
 
     # fetch all gif paths and organize into buckets
@@ -82,7 +90,7 @@ def main():
                 # opencv create a window for viewing in live
                 cv2.namedWindow("gif", cv2.WINDOW_NORMAL)
 
-                for frame in reader:
+                for x, frame in enumerate(reader):
 
                     # PREPROCESSING GIF FRAME
 
@@ -91,20 +99,18 @@ def main():
                     print(frame.shape)
 
                     # pre process into a grayscale format
-                    #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
                     
                     # frame is RGB; OpenCV expects BGR
-                    frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+                    #frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
                     
-                    
+                    frame = blend_frame(frame, frame)
                     # MANIPULATION OF GIF FRAME
                     # Example manipulation
 
                     frame = cv2.GaussianBlur(frame, (15, 15), 0)
                     #frame = cv2.medianBlur(frame, 11)
                     
-                    # multiplication changes the value scale to be more intense
-                    frame = abs(frame + iterate_number)
                     
                     #upper_bound = 50
                     
