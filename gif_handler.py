@@ -68,6 +68,7 @@ def change_gif(cp):
 def modify_frame():
     return
 
+<<<<<<< HEAD:opencv_demo.py
 # basic frame inversion function using in-house bitwise operation
 def invert_frame(frame):
     frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
@@ -80,6 +81,13 @@ def xor_frame(frame, frame1):
     return frame
 
 def overlay_frame(frame, overlay_frame):
+=======
+def blend_frame(frame, frame1):
+    frame = cv2.addWeighted(frame, 0.7, frame1, 0.3, 0)
+    return frame
+
+def flip_frame_horizontal(frame):
+>>>>>>> c2e87e61f3f35545e7a42402654ec45ff1c95f8c:gif_handler.py
     
     return frame
 
@@ -95,8 +103,12 @@ def main():
 
                 # opencv create a window for viewing in live
                 cv2.namedWindow("gif", cv2.WINDOW_NORMAL)
+<<<<<<< HEAD:opencv_demo.py
                 
                 # breaking i (index of frame) and frame object into separate objects to be operated on
+=======
+
+>>>>>>> c2e87e61f3f35545e7a42402654ec45ff1c95f8c:gif_handler.py
                 for x, frame in enumerate(reader):
 
                     # PREPROCESSING GIF FRAME
@@ -110,19 +122,26 @@ def main():
                     
                     # frame is RGB; OpenCV expects BGR
                     #frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+<<<<<<< HEAD:opencv_demo.py
                     
                     frame = xor_frame(frame, x)
                     frame = invert_frame(frame)
                     
+=======
+>>>>>>> c2e87e61f3f35545e7a42402654ec45ff1c95f8c:gif_handler.py
                     
+                    frame = blend_frame(frame, frame)
                     # MANIPULATION OF GIF FRAME
                     # Example manipulation
 
                     frame = cv2.GaussianBlur(frame, (15, 15), 0)
                     #frame = cv2.medianBlur(frame, 11)
                     
+<<<<<<< HEAD:opencv_demo.py
                     # multiplication changes the value scale to be more intense
                     #frame = abs(frame + iterate_number)
+=======
+>>>>>>> c2e87e61f3f35545e7a42402654ec45ff1c95f8c:gif_handler.py
                     
                     #upper_bound = 50
                     
