@@ -42,6 +42,10 @@ def main():
         
         if eval['type'] == 'cp':
             print("Centipawn evaluation: ", eval['value'])
+            centipawn_value = eval['value']
+            mate_value = 0
+            
+            gif_handler.evaluate(centipawn_value, mate_value)
         elif eval['type'] == 'mate':
             print("Mate in ", eval['value'])
 
@@ -50,11 +54,18 @@ def main():
              # Extract sign from value
              # perform mate to centipawn calculation
              # add sign back to number.
+            
 
             centipawn_value = math.copysign(1, eval['value']) * (100 * (21 - min(10, abs(eval['value']))) )
+            mate_value = eval['value']
             print(centipawn_value)
+            
+            gif_handler.evaluate(centipawn_value, mate_value)
 
+  
         # if evaluation is above (lets say, abs 1900, translate to mate sequence, take sign into account)
+        
+        
 
         # TODO: add function that builds gif based on cp score and 
         # sleep timer to see it run a little slower

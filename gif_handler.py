@@ -2,6 +2,7 @@ import cv2
 import pprint
 import time
 import os
+import math
 import numpy as np
 import imageio
 from random import random
@@ -61,36 +62,132 @@ def update_gif():
     return
 
 # swap gif from what is running, take in centipawns as a factor
-def change_gif(cp):
+def change_gif(gif, transition_type, cp):
     return
 
 # apply some math to the frame in some way lol, maybe make a separate class?
 def modify_frame():
     return
 
-<<<<<<< HEAD:opencv_demo.py
 # basic frame inversion function using in-house bitwise operation
 def invert_frame(frame):
+    print("invertframe")
+
     frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
     frame = cv2.bitwise_not(frame)
     return frame
 
 def xor_frame(frame, frame1):
+    print("overlayframe")
+
     frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
     frame = cv2.bitwise_xor(frame, frame1)
     return frame
 
 def overlay_frame(frame, overlay_frame):
-=======
-def blend_frame(frame, frame1):
-    frame = cv2.addWeighted(frame, 0.7, frame1, 0.3, 0)
+    print("overlayframe")
     return frame
 
-def flip_frame_horizontal(frame):
->>>>>>> c2e87e61f3f35545e7a42402654ec45ff1c95f8c:gif_handler.py
+def evaluate(cp, mate_value):
     
-    return frame
+    if mate_value == 0:
+        # ignore mate value, perform regular operation
+        print("gang weed 1")
+        
+        #cp_sign = math.copysign(1, eval['value'])
+        
+        
+        
+        match cp:
+            case cp if cp >= 600:
+                print("centipawns over 600")
+                return
+            case cp if cp >= 500:
+                print("centipawns over 500")
+                return
+            case cp if cp >= 400:
+                print("centipawns over 400")
+                return
+            case cp if cp >= 300:
+                print("centipawns over 300")
+                return
+            case cp if cp >= 200:
+                print("centipawns over 200")
+                return
+            case cp if cp >= 100:
+                print("centipawns over 100")
+                return
+            
+             
+        
+    elif mate_value >= 0 :
+        print("gang weed 2") 
+    
+    '''
+    takes in centipawn
+    
+    returns an update to the gif sequence with a new gif
+    '''
+    return
 
+
+def main():
+     # fetch all gif paths and organize into buckets
+    populate_buckets()
+    while(True):
+        for i, gif in enumerate(buckets[2]):
+            reader = imageio.get_reader(gif, mode='i')
+            imageio.get_reader
+
+            # opencv create a window for viewing in live
+            cv2.namedWindow("gif", cv2.WINDOW_NORMAL)
+            
+            # breaking i (index of frame) and frame object into separate objects to be operated on
+            for x, frame in enumerate(reader):
+
+                # PREPROCESSING GIF FRAME
+
+                # resize frame to be consisent with eachother
+                frame = cv2.resize(frame, (1920, 1080))
+                #print(frame.shape)
+
+                # pre process into a grayscale format
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                
+                # frame is RGB; OpenCV expects BGR
+                #frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+                
+                frame = xor_frame(frame, x)
+                frame = invert_frame(frame)
+                
+                # MANIPULATION OF GIF FRAME
+                # Example manipulation
+
+                frame = cv2.GaussianBlur(frame, (15, 15), 0)
+                #frame = cv2.medianBlur(frame, 11)
+                
+                # multiplication changes the value scale to be more intense
+                #frame = abs(frame + iterate_number)
+                
+                #upper_bound = 50
+                
+                # TODO: leaving off in a spot where i can fluctuate the iterate number to "pulse" the frame's value
+                
+                # if (iterate_number >= 0 & iterate_number <= upper_bound):
+                #     iterate_number += 1
+                # elif (iterate_number >= upper_bound):
+                #     iterate_number -= 1
+            
+                print(i, x)
+                cv2.imshow("gif", frame)
+
+                # Control playback speed (milliseconds)
+                if cv2.waitKey(gif_speed) & 0xFF == ord("q"):
+                    break
+
+        cv2.destroyAllWindows()
+
+''' deprecated main
 def main():
 
     # fetch all gif paths and organize into buckets
@@ -103,12 +200,8 @@ def main():
 
                 # opencv create a window for viewing in live
                 cv2.namedWindow("gif", cv2.WINDOW_NORMAL)
-<<<<<<< HEAD:opencv_demo.py
                 
                 # breaking i (index of frame) and frame object into separate objects to be operated on
-=======
-
->>>>>>> c2e87e61f3f35545e7a42402654ec45ff1c95f8c:gif_handler.py
                 for x, frame in enumerate(reader):
 
                     # PREPROCESSING GIF FRAME
@@ -122,26 +215,19 @@ def main():
                     
                     # frame is RGB; OpenCV expects BGR
                     #frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-<<<<<<< HEAD:opencv_demo.py
                     
                     frame = xor_frame(frame, x)
                     frame = invert_frame(frame)
                     
-=======
->>>>>>> c2e87e61f3f35545e7a42402654ec45ff1c95f8c:gif_handler.py
                     
-                    frame = blend_frame(frame, frame)
                     # MANIPULATION OF GIF FRAME
                     # Example manipulation
 
                     frame = cv2.GaussianBlur(frame, (15, 15), 0)
                     #frame = cv2.medianBlur(frame, 11)
                     
-<<<<<<< HEAD:opencv_demo.py
                     # multiplication changes the value scale to be more intense
                     #frame = abs(frame + iterate_number)
-=======
->>>>>>> c2e87e61f3f35545e7a42402654ec45ff1c95f8c:gif_handler.py
                     
                     #upper_bound = 50
                     
@@ -163,5 +249,7 @@ def main():
                         break
 
         cv2.destroyAllWindows()
+'''
 
-main()
+if __name__ == '__main__':
+    main()
