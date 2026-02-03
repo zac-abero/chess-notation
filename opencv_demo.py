@@ -3,7 +3,6 @@ import pprint
 import time
 import os
 import numpy as np
-import pandas as pd
 import imageio
 from random import random
 from pynput import keyboard #testing purposes
@@ -69,6 +68,21 @@ def change_gif(cp):
 def modify_frame():
     return
 
+# basic frame inversion function using in-house bitwise operation
+def invert_frame(frame):
+    frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+    frame = cv2.bitwise_not(frame)
+    return frame
+
+def xor_frame(frame, frame1):
+    frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+    frame = cv2.bitwise_xor(frame, frame1)
+    return frame
+
+def overlay_frame(frame, overlay_frame):
+    
+    return frame
+
 def main():
 
     # fetch all gif paths and organize into buckets
@@ -81,20 +95,24 @@ def main():
 
                 # opencv create a window for viewing in live
                 cv2.namedWindow("gif", cv2.WINDOW_NORMAL)
-
-                for frame in reader:
+                
+                # breaking i (index of frame) and frame object into separate objects to be operated on
+                for x, frame in enumerate(reader):
 
                     # PREPROCESSING GIF FRAME
 
                     # resize frame to be consisent with eachother
                     frame = cv2.resize(frame, (1920, 1080))
-                    print(frame.shape)
+                    #print(frame.shape)
 
                     # pre process into a grayscale format
-                    #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
                     
                     # frame is RGB; OpenCV expects BGR
-                    frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+                    #frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+                    
+                    frame = xor_frame(frame, x)
+                    frame = invert_frame(frame)
                     
                     
                     # MANIPULATION OF GIF FRAME
@@ -104,7 +122,7 @@ def main():
                     #frame = cv2.medianBlur(frame, 11)
                     
                     # multiplication changes the value scale to be more intense
-                    frame = abs(frame + iterate_number)
+                    #frame = abs(frame + iterate_number)
                     
                     #upper_bound = 50
                     
@@ -118,7 +136,7 @@ def main():
             
 
                 
-
+                    print(i, x)
                     cv2.imshow("gif", frame)
 
                     # Control playback speed (milliseconds)
