@@ -6,7 +6,7 @@ import gif_handler
 from time import sleep
 from pynput import keyboard #testing purposes
 
-
+test = False
 
 def main():
     # begin stockfish engine, ensure that path is correct.
@@ -17,7 +17,7 @@ def main():
         return
     
     # Load and open PGN file
-    file = 'sample_pgns/11batista11_vs_vvurst_2026.01.25.pgn'
+    file = 'sample_pgns/wmeier_vs_odmitrius_2021.05.04.pgn'
 
     pgn = open(file)
 
@@ -38,16 +38,22 @@ def main():
         stockfish.set_fen_position(board.fen())
         eval = stockfish.get_evaluation() 
 
-        print(eval)
+        if test:
+            print(eval)
         
         if eval['type'] == 'cp':
-            print("Centipawn evaluation: ", eval['value'])
+            
+            if test:
+                print("Centipawn evaluation: ", eval['value'])
             centipawn_value = eval['value']
             mate_value = 0
             
             gif_handler.evaluate(centipawn_value, mate_value)
+            
         elif eval['type'] == 'mate':
-            print("Mate in ", eval['value'])
+            
+            if test:
+                print("Mate in ", eval['value'])
 
              # Example conversion for mate scores
              # If eval['value'] is positive, white is winning; if negative, black is winning.
@@ -58,7 +64,9 @@ def main():
 
             centipawn_value = math.copysign(1, eval['value']) * (100 * (21 - min(10, abs(eval['value']))) )
             mate_value = eval['value']
-            print(centipawn_value)
+            
+            if test:
+                print(centipawn_value)
             
             gif_handler.evaluate(centipawn_value, mate_value)
 

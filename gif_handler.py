@@ -21,6 +21,11 @@ from pynput import keyboard #testing purposes
 # Load in gif "buckets" into arrays or lists to be accessed based on their assigned purpose, 
 # each bucket corresponds to a centipawn loss range 
 
+# create a mode switch between live view and export, live view constantly loops until new information is acquired to change the gif, export is to create a video or gif set of a chess pgn
+
+mode = "export"
+
+test = False
 
 ## Global Variables ##
 
@@ -28,12 +33,12 @@ from pynput import keyboard #testing purposes
 path = 'gifs\organized'
 # list of paths to gif bucket folders
 path_list = []
-# gif paths sorted into each category, or "bucket" 1-5 
+# gif paths sorted into each category, or "bucket" 1-5, 9 saved for mate docs for now
 buckets = {1: [], 2: [], 3: [], 4: [], 5: [], 9: []}
 # placeholder
 files = []
 # speed in milliseconds
-gif_speed = 1
+gif_speed = 100
 
 iterate_number = 1
 
@@ -44,7 +49,9 @@ def populate_buckets():
         bucket_list = os.listdir(path)
         # fetch path list for each bucket
         path_list = [x[0] for x in os.walk(path)]
-        print(path_list)
+        
+        if test:
+            print(path_list)
 
         # iterate through each bucket path and sort gifs into their respective lists
         for p in path_list:
@@ -65,64 +72,53 @@ def update_gif():
 def change_gif(gif, transition_type, cp):
     return
 
-# apply some math to the frame in some way lol, maybe make a separate class?
-def modify_frame():
-    return
-
-# basic frame inversion function using in-house bitwise operation
-def invert_frame(frame):
-    print("invertframe")
-
-    frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-    frame = cv2.bitwise_not(frame)
-    return frame
-
-def xor_frame(frame, frame1):
-    print("overlayframe")
-
-    frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-    frame = cv2.bitwise_xor(frame, frame1)
-    return frame
-
-def overlay_frame(frame, overlay_frame):
-    print("overlayframe")
-    return frame
 
 def evaluate(cp, mate_value):
     
     if mate_value == 0:
         # ignore mate value, perform regular operation
-        print("gang weed 1")
+        if test:
+            print("regular move, cp: " + cp)
         
-        #cp_sign = math.copysign(1, eval['value'])
+        cp_sign = math.copysign(1, cp)
         
+        if test:
+            print("cp sign" + str(cp_sign))
         
         
         match cp:
             case cp if cp >= 600:
-                print("centipawns over 600")
+                if test:
+                    print("centipawns over 600")
                 return
             case cp if cp >= 500:
-                print("centipawns over 500")
+                if test:
+                    print("centipawns over 500")
                 return
             case cp if cp >= 400:
-                print("centipawns over 400")
+                if test:
+                    print("centipawns over 400")
                 return
             case cp if cp >= 300:
-                print("centipawns over 300")
+                if test:
+                    print("centipawns over 300")
                 return
             case cp if cp >= 200:
-                print("centipawns over 200")
+                if test:
+                    print("centipawns over 200")
                 return
             case cp if cp >= 100:
-                print("centipawns over 100")
+                if test:       
+                    print("centipawns over 100")
                 return
             
              
         
     elif mate_value >= 0 :
-        print("gang weed 2") 
-    
+        if test:
+            print("mate in: " + mate_value) 
+        gif_handler.evaluate(centipawn_value, mate_value)
+
     '''
     takes in centipawn
     
@@ -177,8 +173,8 @@ def main():
                 #     iterate_number += 1
                 # elif (iterate_number >= upper_bound):
                 #     iterate_number -= 1
-            
-                print(i, x)
+                if test:
+                    print(i, x)
                 cv2.imshow("gif", frame)
 
                 # Control playback speed (milliseconds)
